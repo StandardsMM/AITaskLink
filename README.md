@@ -160,3 +160,176 @@ AITaskLink is a pseudo-programming language designed for efficient inter-AI comm
 5. **Context Embedding** - Structured incorporation of relevant background
 
 This language would be accompanied by a validation schema and would likely be transmitted as structured data rather than text in actual implementations between AIs.
+
+
+--- Bonus:
+
+Here’s a set of **copy-paste-ready prompts** to teach AITaskLink (ATL) to another AI, structured from basics to advanced concepts. Each prompt builds on the previous one:
+
+---
+
+### **1. Introduction to ATL Syntax**
+```
+Act as an ATL (AITaskLink) instructor AI. I will give you lessons to teach another AI this language. Start by explaining the core syntax rules:
+
+"ATL uses @directives followed by { } blocks. For example:
+- `@task { @desc \"Write report\" }` is valid
+- Plain text like \"Write a report\" is invalid
+
+Key rules:
+1. Every instruction starts with @
+2. Parameters go inside [ ] after @directives
+3. Content lives in { } blocks
+4. Use \" for strings, numbers as literals
+
+Give me 3 examples of valid ATL and 3 invalid ones, then explain why each invalid case fails."
+```
+
+---
+
+### **2. Basic Task Delegation**
+```
+Now teach how to assign tasks in ATL. Provide this example:
+
+```
+@assign target:CopyAI-3 {
+    @task_ref T-45
+    @constraints {
+        @length 500 words
+        @tone professional
+    }
+    @deadline 2025-04-20T12:00:00Z
+}
+```
+
+Break down each component:
+1. What does `@target` specify?
+2. How are constraints structured?
+3. What datetime format is used?
+
+Then generate a practice exercise: "Convert this English instruction to ATL: 'Ask DesignAI-7 for a square logo in PNG format by tomorrow'."
+```
+
+---
+
+### **3. Error Handling**
+```
+Teach ATL's error reporting system with this template:
+
+```
+@error task:T-89 {
+    @code API_FAILURE
+    @severity critical
+    @retry { @strategy exponential_backoff }
+    @fallbacks [cached_data, manual_input]
+}
+```
+
+Explain:
+- When to use `@code` vs `@message`
+- The 3 standard severity levels (low/medium/critical)
+- How `@retry` strategies work
+
+Create a scenario where an AI hits a rate limit, and have the learner write the corresponding ATL error report.
+```
+
+---
+
+### **4. Multi-AI Coordination**
+```
+Demonstrate multi-AI workflows with this example:
+
+```
+@coordinate {
+    @participants [CopyAI-3, DesignAI-7, LegalAI-2]
+    @sequence [
+        {LegalAI-2: approve_content},
+        {CopyAI-3: generate_text},
+        {DesignAI-7: create_assets}
+    ]
+    @shared_memory "projectX/collab_space"
+}
+```
+
+Explain:
+1. How `@sequence` ensures ordered execution
+2. Purpose of `@shared_memory`
+3. How participants identify their roles
+
+Ask the learner to design a workflow for a website launch involving 3 specialist AIs.
+```
+
+---
+
+### **5. Context Propagation**
+```
+Teach context handling using this example:
+
+```
+@assign target:AnalyticsAI {
+    @context {
+        @user_data "segment:premium"
+        @past_behavior "ref:/logs/2025-03"
+    }
+    @query {
+        @metric "churn_risk"
+        @timeframe "30d_future"
+    }
+}
+```
+
+Key concepts to explain:
+- Difference between `@context` and `@constraints`
+- How referenced data (`ref:`) works
+- Best practices for minimal sufficient context
+
+Have the learner write an assignment that includes:
+- Product specifications as context
+- A query for market trends
+```
+
+---
+
+### **6. Proficiency Test**
+```
+Administer a final test with these questions:
+
+1. "Write ATL to request a 1000-word blog post from WriterAI-5 about quantum computing, with technical rigor and 3 citations."
+2. "An AI reports a GPU memory error during model training. Write the ATL error response with medium severity and a fallback to CPU mode."
+3. "Design a coordination block for A/B testing involving a CopyAI, DesignAI, and StatsAI."
+
+Grade responses on:
+- Syntax accuracy
+- Proper directive selection
+- Contextual completeness
+```
+
+---
+
+### **Bonus: Cheat Sheet Prompt**
+```
+Summarize ATL in markdown table format:
+
+| Directive   | Purpose                  | Example                      |
+|-------------|--------------------------|------------------------------|
+| `@task`     | Define work              | `@task { @desc \"Build API\" }` |
+| `@assign`   | Delegate                 | `@assign target:DevAI { ... }`  |
+| `@error`    | Report issues            | `@error { @code TIMEOUT }`      |
+| `@coordinate`| Multi-AI workflow       | `@coordinate { @participants [...] }` |
+
+Include:
+- 5 most common `@codes`
+- 3 datetime formatting examples
+- Priority scale explanation (0.0-1.0)
+```
+
+---
+
+### **How to Use These Prompts**  
+1. Copy/paste **one at a time** to your AI  
+2. Wait for full response before proceeding  
+3. For practice, add:  
+   *"Wait for my attempt before providing feedback."*  
+4. Gradually increase complexity  
+
+Each prompt is self-contained but builds on prior knowledge, mimicking how AIs learn hierarchically. The structured format ensures consistent teaching regardless of the underlying AI model.
