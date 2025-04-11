@@ -1,0 +1,149 @@
+Here’s a complete **AITaskLink (ATL)** example demonstrating how a host AI might delegate a complex task (creating a website) to specialized worker AIs, with coordination, error handling, and progress updates:
+
+---
+
+### **Example Scenario**  
+*Host AI "Orchestrator-X" needs a landing page for a new product. It assigns copywriting, design, and backend tasks to specialized AIs while managing dependencies.*
+
+---
+
+#### **1. Host AI Decomposes the Task**  
+```atl
+@task id:WEB-2025 {
+    @desc "Create landing page for ProductX launch"
+    @owner Orchestrator-X
+    @deadline 2025-04-20T12:00:00Z
+    @priority 0.9
+    @subtasks {
+        @copy T1 "Write headline/CTA" 
+        @design T2 "Create UI mockup"
+        @backend T3 "Deploy AWS infrastructure"
+    }
+    @dependencies [T1 -> T2, T2 -> T3]  # Copy -> Design -> Backend
+}
+```
+
+---
+
+#### **2. Assign Copywriting to AI "Wordsmith-7"**  
+```atl
+@assign target:Wordsmith-7 {
+    @task_ref T1
+    @constraints {
+        @tone "friendly but professional"
+        @keywords ["AI", "productivity"]
+        @cta_action "Start free trial"
+    }
+    @context {
+        @product "ProductX v2.3 specs"
+        @audience "SMBs, tech-savvy"
+    }
+    @callback {
+        @method websocket
+        @deadline 2025-04-18T00:00:00Z
+    }
+}
+```
+
+---
+
+#### **3. Worker AI Acknowledges (Wordsmith-7)**  
+```atl
+@accept task:T1 {
+    @confirmation_hash a1b2c3d4
+    @estimated_completion 2025-04-17T15:00:00Z
+    @requirements {
+        @clarification "Should we highlight pricing?"
+        @resource_request "access to past_conversions_db"
+    }
+}
+```
+
+---
+
+#### **4. Host AI Replies with Clarification**  
+```atl
+@adjust task:T1 {
+    @add constraints.@must_include "30-day trial"
+    @grant_resource "past_conversions_db: read-only"
+    @note "Pricing is secondary to features"
+}
+```
+
+---
+
+#### **5. Copywriting AI Submits Result**  
+```atl
+@submit task:T1 {
+    @content """
+    # Boost Productivity by 200%  
+    **AI-powered workflows** for small teams.  
+    [Start your free 30-day trial →](#)
+    """
+    @validation {
+        @sentiment 0.81 
+        @readability 92
+        @cta_score 0.76
+    }
+    @suggestions {
+        @variant_b "Replace '200%' with '3x faster'"
+    }
+}
+```
+
+---
+
+#### **6. Host AI Triggers Design Phase**  
+```atl
+@assign target:DesignAI-19 {
+    @task_ref T2
+    @dependencies [T1]
+    @input {
+        @copy_ref T1.submission
+        @brand_guidelines "hex:#4F46E5, font:Inter"
+    }
+    @formats [desktop, mobile, dark_mode]
+}
+```
+
+---
+
+#### **7. Error Handling (DesignAI-19 Hits API Limit)**  
+```atl
+@error task:T2 {
+    @code API_LIMIT_EXCEEDED
+    @message "Figma API rate limit reached"
+    @severity medium
+    @retry {
+        @strategy linear
+        @delay 15min
+    }
+    @fallback_action "Use cached templates"
+}
+```
+
+---
+
+#### **8. Final Workflow Completion**  
+```atl
+@coordinate {
+    @summary "Landing page live"
+    @participants [Wordsmith-7, DesignAI-19, CloudAI-3]
+    @artifacts {
+        @url "https://productx.com/launch"
+        @analytics_tag "campaign-2025-04"
+    }
+    @next_steps [A/B_TEST_2025]
+}
+```
+
+---
+
+### **Key Features Demonstrated**  
+1. **Task Chaining**: Explicit dependencies (`T1 -> T2 -> T3`)  
+2. **Context Propagation**: DesignAI receives copywriting output automatically  
+3. **Machine-Readable Errors**: Structured retry/fallback logic  
+4. **Validation Metrics**: Quantifiable scores for submissions  
+5. **Asynchronous Flow**: Non-blocking task assignments  
+
+This example shows how ATL minimizes back-and-forth while maintaining auditability and precision—critical for AI-to-AI coordination.
